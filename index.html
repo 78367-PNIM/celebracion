@@ -8,19 +8,23 @@
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Karla:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ink:#16241f;
-    --ink-2:#1e3029;
+    --night:#101c36;
+    --night-2:#22375e;
     --blush:#f7c9d3;
     --rose:#e88aa0;
     --rose-deep:#c95d7b;
     --cream:#fdf6ee;
-    --gold:#d9b36a;
+    --gold:#e8d27a;
+    --gold-deep:#d9b36a;
     --leaf:#5f7d5a;
+    --swirl-a:#4f79c0;
+    --swirl-b:#86abdf;
+    --swirl-c:#bcd2ee;
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html,body{height:100%;overflow:hidden}
   body{
-    background:radial-gradient(120% 90% at 50% 110%, var(--ink-2) 0%, var(--ink) 60%);
+    background:radial-gradient(120% 90% at 50% 110%, var(--night-2) 0%, var(--night) 62%);
     font-family:'Karla',sans-serif;
     color:var(--cream);
     display:flex;align-items:center;justify-content:center;
@@ -28,6 +32,20 @@
 
   /* ---------- escena ---------- */
   .scene{position:relative;width:100%;height:100vh;height:100dvh;overflow:hidden;display:flex;align-items:center;justify-content:center}
+
+  /* ---------- cielo van gogh ---------- */
+  .sky{position:absolute;inset:0;width:100%;height:100%;z-index:0;opacity:.9}
+  .swirl{
+    fill:none;stroke-linecap:round;
+    stroke-dasharray:5 13;
+    animation:flow linear infinite;
+  }
+  @keyframes flow{to{stroke-dashoffset:-360}}
+  .star-core{fill:var(--gold)}
+  .star-halo{fill:none;stroke:var(--gold);stroke-dasharray:3 9;animation:flow 26s linear infinite}
+  .star{animation:twinkle ease-in-out infinite;transform-origin:center;transform-box:fill-box}
+  @keyframes twinkle{0%,100%{opacity:.65}50%{opacity:1}}
+  .moon-halo{fill:none;stroke:var(--gold);stroke-dasharray:4 10;animation:flow 30s linear infinite}
 
   .card{
     position:relative;z-index:5;text-align:center;padding:2rem;max-width:680px;
@@ -40,12 +58,13 @@
     font-family:'Cormorant Garamond',serif;font-weight:600;
     font-size:clamp(2.6rem,8vw,5rem);line-height:1.05;margin:.6rem 0 .4rem;
     color:var(--cream);
+    text-shadow:0 0 28px rgba(232,210,122,.25);
     opacity:0;animation:rise 1.4s ease 2.6s forwards;
   }
   h1 .nombre{font-style:italic;color:var(--blush)}
   .mensaje{
     font-family:'Cormorant Garamond',serif;font-style:italic;
-    font-size:clamp(1.05rem,3vw,1.45rem);line-height:1.6;color:#e9ddcf;
+    font-size:clamp(1.05rem,3vw,1.45rem);line-height:1.6;color:#ece2d2;
     max-width:46ch;margin:0 auto;
     opacity:0;animation:rise 1.4s ease 3.2s forwards;
   }
@@ -95,20 +114,73 @@
 
   /* ---------- luz ambiental ---------- */
   .glow{position:absolute;z-index:0;width:60vmin;height:60vmin;border-radius:50%;
-    background:radial-gradient(circle,rgba(232,138,160,.16),transparent 65%);
+    background:radial-gradient(circle,rgba(232,210,122,.10),transparent 65%);
     top:50%;left:50%;transform:translate(-50%,-55%);animation:pulse 6s ease-in-out infinite}
   @keyframes pulse{0%,100%{opacity:.7}50%{opacity:1}}
-
-
 
   @media (prefers-reduced-motion: reduce){
     *,*::before,*::after{animation-duration:.01s !important;animation-delay:0s !important}
     .falling{display:none}
+    .swirl,.star-halo,.moon-halo{animation:none !important}
   }
 </style>
 </head>
 <body>
 <div class="scene">
+
+  <!-- cielo estilo van gogh: remolinos, estrellas y luna -->
+  <svg class="sky" viewBox="0 0 800 600" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+    <!-- remolino principal (espiral) -->
+    <g class="star" style="animation-duration:7s">
+      <path class="swirl" style="stroke:var(--swirl-a);stroke-width:7;animation-duration:24s"
+        d="M300 170 c -60 -45, -15 -130, 70 -115 c 95 17, 110 125, 15 155 c -70 22, -120 -40, -65 -85 c 32 -26, 78 -8, 70 35 c -6 32, -48 38, -62 12"/>
+      <path class="swirl" style="stroke:var(--swirl-b);stroke-width:4;animation-duration:18s"
+        d="M310 165 c -45 -38, -8 -105, 60 -94 c 76 12, 88 100, 12 124 c -55 18, -96 -32, -52 -68"/>
+    </g>
+
+    <!-- ondas que cruzan el cielo -->
+    <path class="swirl" style="stroke:var(--swirl-a);stroke-width:8;animation-duration:32s;opacity:.8"
+      d="M-60 300 C 120 240, 280 360, 460 290 S 740 230, 880 310"/>
+    <path class="swirl" style="stroke:var(--swirl-b);stroke-width:5;animation-duration:26s;opacity:.85"
+      d="M-60 330 C 140 275, 300 390, 480 318 S 760 262, 880 340"/>
+    <path class="swirl" style="stroke:var(--swirl-c);stroke-width:3;animation-duration:21s;opacity:.7"
+      d="M-60 360 C 160 308, 320 415, 500 345 S 780 292, 880 368"/>
+    <path class="swirl" style="stroke:var(--swirl-b);stroke-width:4;animation-duration:29s;opacity:.5"
+      d="M-60 120 C 150 80, 330 170, 520 110 S 760 60, 880 130"/>
+
+    <!-- estrellas con halo -->
+    <g class="star" style="animation-duration:5s">
+      <circle class="star-halo" cx="120" cy="90" r="26" stroke-width="3" opacity=".6"/>
+      <circle cx="120" cy="90" r="20" fill="rgba(232,210,122,.14)"/>
+      <circle class="star-core" cx="120" cy="90" r="6"/>
+    </g>
+    <g class="star" style="animation-duration:6.5s">
+      <circle class="star-halo" cx="560" cy="150" r="20" stroke-width="2.5" opacity=".6"/>
+      <circle cx="560" cy="150" r="15" fill="rgba(232,210,122,.14)"/>
+      <circle class="star-core" cx="560" cy="150" r="5"/>
+    </g>
+    <g class="star" style="animation-duration:4.5s">
+      <circle class="star-halo" cx="460" cy="60" r="14" stroke-width="2" opacity=".5"/>
+      <circle cx="460" cy="60" r="10" fill="rgba(232,210,122,.12)"/>
+      <circle class="star-core" cx="460" cy="60" r="3.5"/>
+    </g>
+    <g class="star" style="animation-duration:7.5s">
+      <circle class="star-halo" cx="80" cy="280" r="13" stroke-width="2" opacity=".45"/>
+      <circle class="star-core" cx="80" cy="280" r="3"/>
+    </g>
+    <g class="star" style="animation-duration:5.8s">
+      <circle class="star-halo" cx="680" cy="380" r="15" stroke-width="2" opacity=".4"/>
+      <circle class="star-core" cx="680" cy="380" r="3.5"/>
+    </g>
+
+    <!-- luna creciente -->
+    <g class="star" style="animation-duration:9s">
+      <circle class="moon-halo" cx="710" cy="80" r="46" stroke-width="3" opacity=".55"/>
+      <circle cx="710" cy="80" r="38" fill="rgba(232,210,122,.12)"/>
+      <path d="M730 50 a34 34 0 1 0 6 56 a26 26 0 1 1 -6 -56 Z" fill="var(--gold)"/>
+    </g>
+  </svg>
+
   <div class="glow"></div>
 
   <!-- Peonía: plantilla SVG reutilizada por JS -->
@@ -124,7 +196,7 @@
 </div>
 
 <script>
-  // ----- peonía SVG -----
+  // ----- peonía SVG (pétalos con pinceladas estilo óleo) -----
   function peonySVG(scale){
     const petals=[
       // [rotación, retraso, color]
@@ -135,9 +207,16 @@
       [ -75,'1.25s','#f7c9d3'],[ -15,'1.33s','#f7c9d3'],[  45,'1.41s','#f7c9d3'],[ 105,'1.49s','#f7c9d3']
     ];
     let petalEls = petals.map(([r,d,c])=>
-      `<path class="petal" style="--r:${r}deg;--d:${d}"
-        d="M50 95 C 28 70, 30 30, 50 18 C 70 30, 72 70, 50 95 Z"
-        fill="${c}" stroke="rgba(0,0,0,.12)" stroke-width="1"/>`).join('');
+      `<g class="petal" style="--r:${r}deg;--d:${d}">
+        <path d="M50 95 C 28 70, 30 30, 50 18 C 70 30, 72 70, 50 95 Z"
+          fill="${c}" stroke="rgba(0,0,0,.15)" stroke-width="1"/>
+        <path d="M50 86 C 40 68, 41 40, 50 26" fill="none"
+          stroke="rgba(255,255,255,.32)" stroke-width="1.6" stroke-linecap="round" stroke-dasharray="9 5"/>
+        <path d="M50 86 C 58 70, 59 42, 51 28" fill="none"
+          stroke="rgba(0,0,0,.12)" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="7 6"/>
+        <path d="M44 80 C 38 64, 40 46, 46 34" fill="none"
+          stroke="rgba(255,255,255,.18)" stroke-width="1.1" stroke-linecap="round" stroke-dasharray="6 7"/>
+      </g>`).join('');
     return `<svg viewBox="-30 -20 160 220" style="transform:scale(${scale})">
       <path class="stem" d="M50 95 C 48 130, 55 160, 50 200" fill="none" stroke="#5f7d5a" stroke-width="5" stroke-linecap="round"/>
       <path class="leafy" d="M50 150 C 30 140, 18 145, 10 160 C 26 166, 42 162, 50 150 Z" fill="#5f7d5a"/>
@@ -171,7 +250,6 @@
 
   // ----- dedicatoria por URL -----
   const q=new URLSearchParams(location.search);
-  const esc=s=>s.replace(/[<>&"]/g,c=>({'<':'&lt;','>':'&gt;','&':'&amp;','"':'&quot;'}[c]));
   if(q.get('para')) document.getElementById('nombre').textContent=q.get('para');
   if(q.get('msg'))  document.getElementById('mensaje').textContent=q.get('msg');
   if(q.get('de')){
